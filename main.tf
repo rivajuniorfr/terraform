@@ -20,6 +20,24 @@ resource "aws_instance" "dev" {
     tags = {
        Name = "dev${count.index}"
     }
+    vpc_security_group_ids = ["sg-0494f947ad5a9858c"]
+}
+
+resource "aws_security_group" "acesso-ssh" {
+  name        = "acesso-ssh"
+  description = "acesso-ssh"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    # Please restrict your ingress to only necessary IPs and ports.
+    # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
+    cidr_blocks = ["45.181.144.210/32"]
+  }
+  tags = {
+    Name = "ssh"
+  }
 }
 
 
